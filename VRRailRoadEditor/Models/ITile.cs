@@ -9,5 +9,8 @@ namespace VRRailRoadEditor.Models
 {
     public class ITile
     {
-    }
+
+		public int ID { get; set; }
+
+	}
 }

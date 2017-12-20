@@ -12,9 +12,10 @@ using VRRailRoadEditor.Data;
 namespace VRRailRoadEditor.Migrations
 {
     [DbContext(typeof(VRRailRoadEditorContext))]
-    partial class EmployeeBenefitsContextModelSnapshot : ModelSnapshot
+    [Migration("20171220214953_layouts")]
+    partial class layouts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
