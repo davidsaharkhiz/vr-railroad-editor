@@ -1,7 +1,7 @@
-﻿using EmployeeBenefits.Models;
+﻿using VRRailRoadEditor.Models;
 using System.Collections.Generic;
 
-namespace EmployeeBenefits.Helpers
+namespace VRRailRoadEditor.Helpers
 {
 	public interface IDiscountHelper : IHelper
 	{

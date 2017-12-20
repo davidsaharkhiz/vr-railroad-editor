@@ -1,4 +1,4 @@
-﻿namespace EmployeeBenefits.Helpers
+﻿namespace VRRailRoadEditor.Helpers
 {
 	public interface IHelper
 	{

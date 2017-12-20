@@ -1,14 +1,14 @@
-﻿using EmployeeBenefits.Data;
+﻿using VRRailRoadEditor.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmployeeBenefits.Controllers
+namespace VRRailRoadEditor.Controllers
 {
 	public class BaseController : Controller
     {
-		protected  EmployeeBenefitsContext _context;
+		protected  VRRailRoadEditorContext _context;
 
 		// Inject our datacontext
-		public BaseController(EmployeeBenefitsContext context)
+		public BaseController(VRRailRoadEditorContext context)
 		{
 			_context = context;
 		}

@@ -1,6 +1,6 @@
-﻿using EmployeeBenefits.Models;
+﻿using VRRailRoadEditor.Models;
 
-namespace EmployeeBenefits.ViewModels
+namespace VRRailRoadEditor.ViewModels
 {
     public class HomeIndexViewModel
     {

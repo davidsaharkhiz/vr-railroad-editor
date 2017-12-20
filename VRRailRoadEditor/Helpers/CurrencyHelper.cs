@@ -1,4 +1,4 @@
-﻿namespace EmployeeBenefits.Helpers
+﻿namespace VRRailRoadEditor.Helpers
 {
     public class CurrencyHelper
     {

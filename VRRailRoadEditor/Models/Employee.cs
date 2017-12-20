@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using EmployeeBenefits.Helpers;
+using VRRailRoadEditor.Helpers;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace EmployeeBenefits.Models
+namespace VRRailRoadEditor.Models
 {
 
     public class Employee : IPerson

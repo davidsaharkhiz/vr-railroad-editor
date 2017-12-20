@@ -1,9 +1,9 @@
-﻿using EmployeeBenefits.Helpers;
+﻿using VRRailRoadEditor.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EmployeeBenefits.Models
+namespace VRRailRoadEditor.Models
 {
 
 	/// <summary>

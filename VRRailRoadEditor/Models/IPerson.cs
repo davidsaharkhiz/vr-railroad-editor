@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using EmployeeBenefits.Helpers;
-namespace EmployeeBenefits.Models
+using VRRailRoadEditor.Helpers;
+namespace VRRailRoadEditor.Models
 {
 	/// <summary>
 	/// Representation of a 'person' in our system. This can be for example an employee, a spouse, or a dependent.

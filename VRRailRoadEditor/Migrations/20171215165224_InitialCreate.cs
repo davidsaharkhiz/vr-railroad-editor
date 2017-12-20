@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace EmployeeBenefits.Migrations
+namespace VRRailRoadEditor.Migrations
 {
     public partial class InitialCreate : Migration
     {

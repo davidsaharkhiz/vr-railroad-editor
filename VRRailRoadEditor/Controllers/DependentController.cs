@@ -1,17 +1,17 @@
-﻿using EmployeeBenefits.Models;
+﻿using VRRailRoadEditor.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using EmployeeBenefits.Data;
-using EmployeeBenefits.ViewModels;
+using VRRailRoadEditor.Data;
+using VRRailRoadEditor.ViewModels;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace EmployeeBenefits.Controllers
+namespace VRRailRoadEditor.Controllers
 {
 	public class DependentController : BaseController
 	{
 		
-		public DependentController(EmployeeBenefitsContext context) : base(context) {
+		public DependentController(VRRailRoadEditorContext context) : base(context) {
 			_context = context;
 		}
 

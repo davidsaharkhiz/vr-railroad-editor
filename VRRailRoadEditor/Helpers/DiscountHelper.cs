@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using EmployeeBenefits.Models;
+using VRRailRoadEditor.Models;
 using System;
 using System.Linq;
 
-namespace EmployeeBenefits.Helpers
+namespace VRRailRoadEditor.Helpers
 {
     public class DiscountHelper : IDiscountHelper
     {

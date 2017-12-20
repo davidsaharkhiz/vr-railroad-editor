@@ -1,11 +1,11 @@
-﻿using EmployeeBenefits.Models;
+﻿using VRRailRoadEditor.Models;
 using System.Linq;
 
-namespace EmployeeBenefits.Data
+namespace VRRailRoadEditor.Data
 {
 	public static class DbInitializer
 	{
-		public static void Initialize(EmployeeBenefitsContext context)
+		public static void Initialize(VRRailRoadEditorContext context)
 		{
 			context.Database.EnsureCreated();
 

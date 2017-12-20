@@ -1,9 +1,9 @@
-﻿using EmployeeBenefits.Models;
+﻿using VRRailRoadEditor.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace EmployeeBenefits.ViewModels
+namespace VRRailRoadEditor.ViewModels
 {
     public class DependentInputViewModel
     {

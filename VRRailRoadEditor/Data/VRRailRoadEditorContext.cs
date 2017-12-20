@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EmployeeBenefits.Models;
+using VRRailRoadEditor.Models;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using EmployeeBenefits.Helpers;
+using VRRailRoadEditor.Helpers;
 
-namespace EmployeeBenefits.Data
+namespace VRRailRoadEditor.Data
 {
-	public class EmployeeBenefitsContext : DbContext
+	public class VRRailRoadEditorContext : DbContext
 	{
-		public EmployeeBenefitsContext(DbContextOptions<EmployeeBenefitsContext> options) : base(options)
+		public VRRailRoadEditorContext(DbContextOptions<VRRailRoadEditorContext> options) : base(options)
 		{
 		}
 

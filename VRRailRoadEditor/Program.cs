@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using EmployeeBenefits.Data;
+using VRRailRoadEditor.Data;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore;
 
@@ -28,7 +28,7 @@ namespace EmployeeBenefits
 				var services = scope.ServiceProvider;
 				try
 				{
-					var context = services.GetRequiredService<EmployeeBenefitsContext>();
+					var context = services.GetRequiredService<VRRailRoadEditorContext>();
 					DbInitializer.Initialize(context);
 				}
 				catch (Exception ex)

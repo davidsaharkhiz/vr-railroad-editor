@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeBenefits.Data;
-using EmployeeBenefits.ViewModels;
+using VRRailRoadEditor.Data;
+using VRRailRoadEditor.ViewModels;
 using System.Linq;
 
-namespace EmployeeBenefits.Controllers
+namespace VRRailRoadEditor.Controllers
 {
     public class HomeController : BaseController
     {
 
-		public HomeController(EmployeeBenefitsContext context) : base(context) {
+		public HomeController(VRRailRoadEditorContext context) : base(context) {
 			_context = context;
 		}
 

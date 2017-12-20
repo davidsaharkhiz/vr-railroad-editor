@@ -1,4 +1,4 @@
-﻿namespace EmployeeBenefits.Models
+﻿namespace VRRailRoadEditor.Models
 {
     public class EmployeeDependent
     {
