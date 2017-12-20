@@ -1,0 +1,82 @@
+// Global styling for this template
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+body.sticky-footer {
+  margin-bottom: 56px;
+  .content-wrapper {
+    min-height: calc(100vh - 56px - 56px);
+  }
+}
+
+body.fixed-nav {
+  padding-top: 56px;
+}
+
+.content-wrapper {
+  min-height: calc(100vh - 56px);
+  padding-top: 1rem;
+}
+
+// Scroll to top button
+.scroll-to-top {
+  position: fixed;
+  right: 15px;
+  bottom: 3px;
+
+  display: none;
+
+  width: 50px;
+  height: 50px;
+
+  text-align: center;
+
+  color: white;
+  background: fade-out($gray-800, .5);
+
+  line-height: 45px;
+  &:focus,
+  &:hover {
+    color: white;
+  }
+  &:hover {
+    background: $gray-800;
+  }
+  i {
+    font-weight: 800;
+  }
+}
+
+// Custom Styles
+//todo: consider moving this to its own sass file
+.employee-benefits-form-wrapper {
+
+	margin: 20px;
+
+	button, input, select, textarea {
+		margin-top: 7px;
+		margin-bottom: 7px;
+	}
+}
+
+.employee-benefits-button-row {
+	button {
+		margin: 2px 12px;
+	}
+}
+
+.employee-benefits-homepage-icon-row {
+	font-size-adjust: 0.8;
+
+	.pull-right {
+		margin-right: 40px;
+	}
+
+}
