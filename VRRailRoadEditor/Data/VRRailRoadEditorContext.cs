@@ -13,9 +13,14 @@ namespace VRRailRoadEditor.Data
 		{
 		}
 
+		//old stuff todo: remove
 		public DbSet<Employee> Employees { get; set; }
 		public DbSet<Dependent> Dependents { get; set; }
 		public DbSet<Discount> Discounts { get; set; }
+
+		//layout stuff:
+		public DbSet<ITile> Tiles { get; set; }
+		public DbSet<ILayout> Layouts { get; set; }
 
 		public DbSet<EmployeeDependent> EmployeeDependents { get; set; }
 

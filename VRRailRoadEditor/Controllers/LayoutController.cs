@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using VRRailRoadEditor.Data;
+using System.Linq;
 
 namespace VRRailRoadEditor.Controllers
 {
@@ -8,6 +9,8 @@ namespace VRRailRoadEditor.Controllers
     [Route("api/layout")]
     public class LayoutController : BaseController
     {
+
+		//todo: swagger
 
 		// ex: http://localhost:58811/api/layout/5
 		public LayoutController(VRRailRoadEditorContext context) : base(context) {
@@ -18,14 +21,14 @@ namespace VRRailRoadEditor.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-			return Json(_context.Employees);
+			return Json(_context.Layouts);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public JsonResult Get(int id)
         {
-            return "value";
+			return Json(_context.Layouts.FirstOrDefault(l => l.ID == id));
         }
 
         // POST api/values
