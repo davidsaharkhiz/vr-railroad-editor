@@ -1,5 +1,5 @@
 ﻿@model VRRailRoadEditor.ViewModels.HomeIndexViewModel
-<!-- Icon Cards-->
+<!--
 <div class="row employee-benefits-homepage-icon-row">
 	<div class="col-xl-3 col-sm-6 mb-3">
 		<div class="card text-white bg-primary o-hidden h-100">
@@ -64,7 +64,6 @@
 	</div>
 </div>
 
-<!-- Example DataTables Card-->
 <div class="card mb-3">
 	<div class="card-header">
 		<i class="fa fa-table"></i> Employees
@@ -118,7 +117,69 @@
 	</div>
 	<div class="card-footer small text-muted">All currency amounts are in USD.</div>
 	<div class="result"></div>
+</div>-->
+
+<div id="content">
+	<div id="output">
+		<canvas id="canvas"></canvas>
+	</div>
+	<div id="input">
+		<div id="editor">
+			var Point  = Isomer.Point;
+			var Path   = Isomer.Path;
+			var Shape  = Isomer.Shape;
+			var Vector = Isomer.Vector;
+			var Color  = Isomer.Color;
+
+			var iso = new Isomer(document.getElementById("canvas"));
+
+			var red = new Color(160, 60, 50);
+			var blue = new Color(50, 60, 160);
+
+			iso.add(Shape.Prism(Point.ORIGIN, 9, 3, 1));
+			iso.add(Shape.Pyramid(Point(0, 2, 1)), red);
+			iso.add(Shape.Prism(Point(2, 0, 1)), blue);
+		</div>
+	</div>
 </div>
+
+<script src="~/js/isomer.min.js"></script>
+<script src="~/js/ace.js"></script>
+<script src="~/js/loop-protect.js"></script>
+<script src="~/js/playground_script.js"></script>
+<script>
+	// Declare the ACE editor
+	var editor = ace.edit("editor");
+	editor.getSession().setMode("ace/mode/javascript");
+	editor.getSession().setUseWorker(false);
+
+	document.addEventListener("DOMContentLoaded", function () {
+		// Explicitly declare the width and height of the canvas
+		var container = document.getElementById("output");
+		var canvas = document.getElementById("canvas");
+
+		var width = container.offsetWidth;
+		var height = container.offsetHeight;
+
+		canvas.style.width = width + "px";
+		canvas.style.height = height + "px";
+
+		// 2x for retina displays
+		canvas.width = 2 * width;
+		canvas.height = 2 * height;
+
+		var scratch = new Scratchpad(editor, canvas);
+		// Load from localStorage
+		scratch.load();
+
+		// Listen for changes in the editor and execute them
+		scratch.run();
+
+		editor.gotoLine(editor.session.getLength());
+	});
+</script>
+
+
 
 @section Scripts {
 
