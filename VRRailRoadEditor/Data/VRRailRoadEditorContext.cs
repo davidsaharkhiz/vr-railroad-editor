@@ -19,9 +19,12 @@ namespace VRRailRoadEditor.Data
 		public DbSet<Discount> Discounts { get; set; }
 
 		//layout stuff:
-		public DbSet<ITile> Tiles { get; set; }
-		public DbSet<ILayout> Layouts { get; set; }
+		public DbSet<Tile> Tiles { get; set; }
+		public DbSet<Layout> Layouts { get; set; }
+		public DbSet<Material> Materials { get; set; }
+		public DbSet<StandardRail> Rails { get; set; }
 
+		// many to many
 		public DbSet<EmployeeDependent> EmployeeDependents { get; set; }
 
 		/// <summary>

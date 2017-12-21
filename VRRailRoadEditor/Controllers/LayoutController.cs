@@ -4,6 +4,7 @@ using VRRailRoadEditor.Data;
 using System.Linq;
 using Newtonsoft.Json;
 using VRRailRoadEditor.Models;
+using System.Collections.ObjectModel;
 
 namespace VRRailRoadEditor.Controllers
 {
@@ -31,7 +32,55 @@ namespace VRRailRoadEditor.Controllers
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-			return Json(_context.Layouts.FirstOrDefault(l => l.ID == id));
+
+			var testLayout = _context.Layouts.FirstOrDefault(l => l.ID == id);
+
+			if(testLayout != null) {
+
+				_context.Tiles.RemoveRange(_context.Tiles.Where(t => t.Layout.ID == testLayout.ID));
+
+				//delete old one(todo: these are null?!?!
+				//_context.Tiles.RemoveRange(testLayout.Tiles);
+				_context.Layouts.Remove(testLayout);
+
+				_context.SaveChanges();
+			}
+
+			testLayout = new Layout { Name = "test layout david", Width = 15, Height=1, Length = 30 };
+
+			_context.Add(testLayout);
+
+			_context.SaveChanges();
+
+			id = testLayout.ID;
+
+
+			testLayout.Tiles = new List<Tile>();
+			for (int z = 0; z < testLayout.Height; z++)
+			{
+				for (int y = 0; y < testLayout.Length; y++)
+				{
+					for (int x = 0; x < testLayout.Length; x++)
+					{
+						var tile = new Tile { X = x, Y = y, Z = z, Layout = testLayout, PrimaryMaterial = new IMaterial { Name = "grass" } };
+						_context.Add(tile);
+						testLayout.Tiles.Add(tile);
+
+						if(x > 0) {
+							continue; //temporary debug code
+						}
+
+					}
+				}
+			}
+
+			_context.Update(testLayout);
+			_context.SaveChanges();
+
+			var test = _context.Layouts.FirstOrDefault(l => l.ID == id);
+			var converted = Json(test);
+
+			return converted;
         }
 
         // POST api/values
@@ -41,16 +90,8 @@ namespace VRRailRoadEditor.Controllers
 			
 			//var blah = JsonConvert.DeserializeObject<Layout>(value);
 
-			var testSerialize = new Layout();
-			var testTiles = new List<Tile> {
-				new Tile { ID = 4},
-				new Tile { ID = 7},
-			};
-			testSerialize.Tiles = testTiles;
+			
 
-			var testSerialized = JsonConvert.SerializeObject(testSerialize);
-			var blah2 = 3;
-			var blah4 = JsonConvert.DeserializeObject<Layout>(testSerialized);
 
 		}
 

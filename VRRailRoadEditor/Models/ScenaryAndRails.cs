@@ -19,6 +19,10 @@ namespace VRRailRoadEditor.Models
 		public ICollection<Tile> Tiles { get; set; }
 	}
 
+	public class Material : IMaterial {
+
+	}
+
 	public class IRail
 	{
 		public int ID { get; set; }
@@ -26,6 +30,10 @@ namespace VRRailRoadEditor.Models
 		[StringLength(60, MinimumLength = 2)]
 		[Required]
 		public string Name { get; set; }
+	}
+
+	public class StandardRail : IRail {
+
 	}
 
 	public class IScenery
@@ -46,16 +54,16 @@ namespace VRRailRoadEditor.Models
 		[Required]
 		public string Name { get; set; }
 
-		/// <summary>
-		/// What is my surface? You pass trains.
-		/// </summary>
-		public IMaterial PrimaryMaterial { get; set; }
-		/// <summary>
-		/// This surface is currently unsupported but could for example store an oil spill or gravel/no gravel
-		/// </summary>
-		public IMaterial SecondaryMaterial { get; set; }
+
 
 		public IRail Rail { get; set; }
 
 	}
+
+	public class Scenery : IScenery {
+
+
+	}
+
+	
 }

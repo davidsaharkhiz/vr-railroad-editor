@@ -11,11 +11,17 @@ namespace VRRailRoadEditor.Models
 	{
 		public int ID { get; set; }
 
+		public int Width { get; set; }
+
+		public int Length { get; set; }
+
+		public int Height { get; set; }
+
 		[StringLength(60, MinimumLength = 2)]
 		[Required]
 		public string Name { get; set; }
 
-		public ICollection<Tile> Tiles { get; set; }
+		public List<Tile> Tiles { get; set; }
 
 		//todo: one to many relationship from users
 	}

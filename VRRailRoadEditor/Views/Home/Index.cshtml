@@ -133,6 +133,8 @@
 
 			var iso = new Isomer(document.getElementById("canvas"));
 
+			iso.
+
 			var red = new Color(160, 60, 50);
 			var blue = new Color(50, 60, 160);
 
@@ -143,56 +145,97 @@
 	</div>
 </div>
 
-<script src="~/js/isomer.min.js"></script>
-<script src="~/js/ace.js"></script>
-<script src="~/js/loop-protect.js"></script>
-<script src="~/js/playground_script.js"></script>
-<script>
-	// Declare the ACE editor
-	var editor = ace.edit("editor");
-	editor.getSession().setMode("ace/mode/javascript");
-	editor.getSession().setUseWorker(false);
 
-	document.addEventListener("DOMContentLoaded", function () {
-		// Explicitly declare the width and height of the canvas
-		var container = document.getElementById("output");
-		var canvas = document.getElementById("canvas");
-
-		var width = container.offsetWidth;
-		var height = container.offsetHeight;
-
-		canvas.style.width = width + "px";
-		canvas.style.height = height + "px";
-
-		// 2x for retina displays
-		canvas.width = 2 * width;
-		canvas.height = 2 * height;
-
-		var scratch = new Scratchpad(editor, canvas);
-		// Load from localStorage
-		scratch.load();
-
-		// Listen for changes in the editor and execute them
-		scratch.run();
-
-		editor.gotoLine(editor.session.getLength());
-	});
-</script>
 
 
 
 @section Scripts {
 
 
+	<script src="~/js/isomer.min.js"></script>
+	<script src="~/js/ace.js"></script>
+	<script src="~/js/loop-protect.js"></script>
+	<script src="~/js/playground_script.js"></script>
+	<script>
+		// Declare the ACE editor
+		var editor = ace.edit("editor");
+		editor.getSession().setMode("ace/mode/javascript");
+		editor.getSession().setUseWorker(false);
+
+		document.addEventListener("DOMContentLoaded", function () {
+			// Explicitly declare the width and height of the canvas
+			var container = document.getElementById("output");
+			var canvas = document.getElementById("canvas");
+
+			var width = container.offsetWidth;
+			var height = container.offsetHeight;
+
+			canvas.style.width = width + "px";
+			canvas.style.height = height + "px";
+
+			// 2x for retina displays
+			canvas.width = 2 * width;
+			canvas.height = 2 * height;
+
+			var scratch = new Scratchpad(editor, canvas);
+			// Load from localStorage
+			scratch.load();
+
+			// Listen for changes in the editor and execute them
+			scratch.run();
+
+			editor.gotoLine(editor.session.getLength());
+		});
+	</script>
+
 	<script type="text/javascript">
 		jQuery();
 		console.log("test");
 		var url = '@Url.Action("Get","Layout")';
-		$.get(url, function (data) {
-			dataType: 'json',
-			console.log(data);
-			$(".result").html(data);
+
+		 $.ajax({
+				type: 'GET',
+				url: url,
+				dataType: 'json',
+				data: { id: 5 },
+				success: function (data) {
+					console.log("success");
+					var items = '';
+					$.each(data, function (i, item) {
+
+						console.log(item.name);
+						console.log(item);
+
+						$.each(item.tiles, function (j, tile) {
+							console.log(tile);
+						});
+
+						//$('body').append(rows);
+					});
+
+				},
+				error: function (ex) {
+					console.log("success2");
+					var r = jQuery.parseJSON(response.responseText);
+					alert("Message: " + r.Message);
+					alert("StackTrace: " + r.StackTrace);
+					alert("ExceptionType: " + r.ExceptionType);
+				}
 		});
+		/*
+		$.getJSON(url, function (data) {
+			var items = [];
+			$.each(data, function (key, val) {
+				items.push("<li id='" + key + "'>" + val + "</li>");
+			});
+
+			$("<ul/>", {
+				"class": "my-new-list",
+				html: items.join("")
+			}).appendTo("body");
+		});*/
+
+
 
 		//now post
 
@@ -231,7 +274,7 @@
 			url: url,
 			data: datastring,
 			dataType: "json",
-			contentType: "application/json", 
+			contentType: "application/json",
 			success: function (data) {
 			},
 			error: function () {

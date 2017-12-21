@@ -12,9 +12,10 @@ using VRRailRoadEditor.Data;
 namespace VRRailRoadEditor.Migrations
 {
     [DbContext(typeof(VRRailRoadEditorContext))]
-    partial class EmployeeBenefitsContextModelSnapshot : ModelSnapshot
+    [Migration("20171221224510_sceneryUpdate2")]
+    partial class sceneryUpdate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,9 +93,6 @@ namespace VRRailRoadEditor.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<int>("Height");
 
                     b.Property<int>("Length");
@@ -107,18 +105,27 @@ namespace VRRailRoadEditor.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("ILayout");
+                    b.ToTable("Layouts");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ILayout");
+            modelBuilder.Entity("VRRailRoadEditor.Models.IMaterial", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("IMaterial");
                 });
 
             modelBuilder.Entity("VRRailRoadEditor.Models.IRail", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -127,8 +134,6 @@ namespace VRRailRoadEditor.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("IRail");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IRail");
                 });
 
             modelBuilder.Entity("VRRailRoadEditor.Models.IScenery", b =>
@@ -136,13 +141,13 @@ namespace VRRailRoadEditor.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("ITileID");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(60);
 
                     b.Property<int?>("RailID");
-
-                    b.Property<int?>("TileID");
 
                     b.Property<int>("X");
 
@@ -150,37 +155,24 @@ namespace VRRailRoadEditor.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("RailID");
+                    b.HasIndex("ITileID");
 
-                    b.HasIndex("TileID");
+                    b.HasIndex("RailID");
 
                     b.ToTable("IScenery");
                 });
 
-            modelBuilder.Entity("VRRailRoadEditor.Models.Material", b =>
+            modelBuilder.Entity("VRRailRoadEditor.Models.ITile", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60);
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
-                    b.HasKey("ID");
+                    b.Property<int?>("PrimaryMaterialID");
 
-                    b.ToTable("Materials");
-
-                    b.HasDiscriminator().HasValue("Material");
-                });
-
-            modelBuilder.Entity("VRRailRoadEditor.Models.Tile", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("LayoutID");
-
-                    b.Property<int?>("MaterialID");
+                    b.Property<int?>("SecondaryMaterialID");
 
                     b.Property<int>("X");
 
@@ -190,31 +182,30 @@ namespace VRRailRoadEditor.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("LayoutID");
+                    b.HasIndex("PrimaryMaterialID");
 
-                    b.HasIndex("MaterialID");
+                    b.HasIndex("SecondaryMaterialID");
 
                     b.ToTable("Tiles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ITile");
                 });
 
-            modelBuilder.Entity("VRRailRoadEditor.Models.Layout", b =>
+            modelBuilder.Entity("VRRailRoadEditor.Models.Tile", b =>
                 {
-                    b.HasBaseType("VRRailRoadEditor.Models.ILayout");
+                    b.HasBaseType("VRRailRoadEditor.Models.ITile");
 
+                    b.Property<int?>("IMaterialID");
 
-                    b.ToTable("Layout");
+                    b.Property<int?>("LayoutID");
 
-                    b.HasDiscriminator().HasValue("Layout");
-                });
+                    b.HasIndex("IMaterialID");
 
-            modelBuilder.Entity("VRRailRoadEditor.Models.StandardRail", b =>
-                {
-                    b.HasBaseType("VRRailRoadEditor.Models.IRail");
+                    b.HasIndex("LayoutID");
 
+                    b.ToTable("Tile");
 
-                    b.ToTable("StandardRail");
-
-                    b.HasDiscriminator().HasValue("StandardRail");
+                    b.HasDiscriminator().HasValue("Tile");
                 });
 
             modelBuilder.Entity("VRRailRoadEditor.Models.EmployeeDependent", b =>
@@ -232,24 +223,35 @@ namespace VRRailRoadEditor.Migrations
 
             modelBuilder.Entity("VRRailRoadEditor.Models.IScenery", b =>
                 {
+                    b.HasOne("VRRailRoadEditor.Models.ITile")
+                        .WithMany("Scenery")
+                        .HasForeignKey("ITileID");
+
                     b.HasOne("VRRailRoadEditor.Models.IRail", "Rail")
                         .WithMany()
                         .HasForeignKey("RailID");
+                });
 
-                    b.HasOne("VRRailRoadEditor.Models.Tile")
-                        .WithMany("Scenery")
-                        .HasForeignKey("TileID");
+            modelBuilder.Entity("VRRailRoadEditor.Models.ITile", b =>
+                {
+                    b.HasOne("VRRailRoadEditor.Models.IMaterial", "PrimaryMaterial")
+                        .WithMany()
+                        .HasForeignKey("PrimaryMaterialID");
+
+                    b.HasOne("VRRailRoadEditor.Models.IMaterial", "SecondaryMaterial")
+                        .WithMany()
+                        .HasForeignKey("SecondaryMaterialID");
                 });
 
             modelBuilder.Entity("VRRailRoadEditor.Models.Tile", b =>
                 {
+                    b.HasOne("VRRailRoadEditor.Models.IMaterial")
+                        .WithMany("Tiles")
+                        .HasForeignKey("IMaterialID");
+
                     b.HasOne("VRRailRoadEditor.Models.ILayout", "Layout")
                         .WithMany("Tiles")
                         .HasForeignKey("LayoutID");
-
-                    b.HasOne("VRRailRoadEditor.Models.Material")
-                        .WithMany("Tiles")
-                        .HasForeignKey("MaterialID");
                 });
 #pragma warning restore 612, 618
         }
