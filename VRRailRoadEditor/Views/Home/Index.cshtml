@@ -117,4 +117,65 @@
 		</div>
 	</div>
 	<div class="card-footer small text-muted">All currency amounts are in USD.</div>
+	<div class="result"></div>
 </div>
+
+@section Scripts {
+
+
+	<script type="text/javascript">
+		jQuery();
+		console.log("test");
+		var url = '@Url.Action("Get","Layout")';
+		$.get(url, function (data) {
+			dataType: 'json',
+			console.log(data);
+			$(".result").html(data);
+		});
+
+		//now post
+
+		console.log("now post");
+
+
+
+		class Tile {
+			constructor(name) {
+				this.name = name;
+			}
+		}
+
+		class Layout {
+			constructor(height, width, tiles) {
+				this.height = height;
+				this.width = width;
+				this.tiles = tiles;
+			}
+		}
+
+		var tiles = new Array(2);
+		tiles[0] = new Tile("grass");
+		tiles[1] = new Tile("water");
+		var layout = new Layout(10, 10, tiles);
+
+
+
+		var datastring = JSON.stringify(layout)
+		console.log(datastring);
+
+		var url = '@Url.Action("Post","Layout")';
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: datastring,
+			dataType: "json",
+			contentType: "application/json", 
+			success: function (data) {
+			},
+			error: function () {
+			}
+		});
+
+	</script>
+}

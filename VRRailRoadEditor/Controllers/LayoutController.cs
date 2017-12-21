@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using VRRailRoadEditor.Data;
 using System.Linq;
+using Newtonsoft.Json;
+using VRRailRoadEditor.Models;
 
 namespace VRRailRoadEditor.Controllers
 {
@@ -21,7 +23,8 @@ namespace VRRailRoadEditor.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-			return Json(_context.Layouts);
+			var jsonResult = Json(_context.Layouts);
+			return jsonResult;
         }
 
         // GET api/values/5
@@ -33,9 +36,23 @@ namespace VRRailRoadEditor.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Layout value)
         {
-        }
+			
+			//var blah = JsonConvert.DeserializeObject<Layout>(value);
+
+			var testSerialize = new Layout();
+			var testTiles = new List<Tile> {
+				new Tile { ID = 4},
+				new Tile { ID = 7},
+			};
+			testSerialize.Tiles = testTiles;
+
+			var testSerialized = JsonConvert.SerializeObject(testSerialize);
+			var blah2 = 3;
+			var blah4 = JsonConvert.DeserializeObject<Layout>(testSerialized);
+
+		}
 
         // PUT api/values/5
         [HttpPut("{id}")]
