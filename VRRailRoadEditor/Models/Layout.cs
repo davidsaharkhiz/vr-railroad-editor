@@ -17,9 +17,6 @@ namespace VRRailRoadEditor.Models
 			
 
 
-	}
-
-
-
+		}
 
 }

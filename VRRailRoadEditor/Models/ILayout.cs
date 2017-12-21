@@ -15,8 +15,8 @@ namespace VRRailRoadEditor.Models
 		[Required]
 		public string Name { get; set; }
 
-		//todo: one to many relationship from users
-
 		public ICollection<Tile> Tiles { get; set; }
+
+		//todo: one to many relationship from users
 	}
 }
