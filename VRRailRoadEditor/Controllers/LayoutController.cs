@@ -5,6 +5,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using VRRailRoadEditor.Models;
 using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace VRRailRoadEditor.Controllers
 {
@@ -24,20 +26,19 @@ namespace VRRailRoadEditor.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-			var jsonResult = Json(_context.Layouts);
-			return jsonResult;
+			return Json(_context.Layouts.Include(l => l.Tiles).FirstOrDefault(l => l.ID == 16));
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        [HttpGet("{id:int}")]
+        public string Get(int id)
         {
 
 			var testLayout = _context.Layouts.FirstOrDefault(l => l.ID == id);
 
 			if(testLayout != null) {
 
-				_context.Tiles.RemoveRange(_context.Tiles.Where(t => t.Layout.ID == testLayout.ID));
+				_context.Tiles.RemoveRange(testLayout.Tiles);
 
 				//delete old one(todo: these are null?!?!
 				//_context.Tiles.RemoveRange(testLayout.Tiles);
@@ -48,12 +49,7 @@ namespace VRRailRoadEditor.Controllers
 
 			testLayout = new Layout { Name = "test layout david", Width = 15, Height=1, Length = 30 };
 
-			_context.Add(testLayout);
-
-			_context.SaveChanges();
-
-			id = testLayout.ID;
-
+			_context.Attach(testLayout);
 
 			testLayout.Tiles = new List<Tile>();
 			for (int z = 0; z < testLayout.Height; z++)
@@ -62,23 +58,37 @@ namespace VRRailRoadEditor.Controllers
 				{
 					for (int x = 0; x < testLayout.Length; x++)
 					{
-						var tile = new Tile { X = x, Y = y, Z = z, Layout = testLayout, PrimaryMaterial = new IMaterial { Name = "grass" } };
-						_context.Add(tile);
+
+						if (x > 1 || y > 1 || z > 1)
+						{
+							continue;
+						}
+
+						var tile = new Tile { X = x, Y = y, Z = z,  PrimaryMaterial = new IMaterial { Name = "grass" } };
 						testLayout.Tiles.Add(tile);
 
-						if(x > 0) {
-							continue; //temporary debug code
-						}
+						
+						
 
 					}
 				}
 			}
 
-			_context.Update(testLayout);
 			_context.SaveChanges();
 
-			var test = _context.Layouts.FirstOrDefault(l => l.ID == id);
-			var converted = Json(test);
+			id = testLayout.ID;
+
+			var test = _context.Layouts.Include(l => l.Tiles).FirstOrDefault(l => l.ID == 1);
+
+			if(test == null) {
+				//todo: log here and response object with error info
+				test = new Layout();
+			}
+
+			var converted = JsonConvert.SerializeObject(test);
+
+			//converted.ContentType = "application/json";
+			//var bleee = converted.ToString();
 
 			return converted;
         }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using VRRailRoadEditor.Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace EmployeeBenefits
 {
@@ -30,6 +31,13 @@ namespace EmployeeBenefits
 
 			services.AddDbContext<VRRailRoadEditorContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+			// During serialization we wish to ignore nulls
+			services.AddMvc()
+				 .AddJsonOptions(options => {
+					 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; //do not include null values during serialization
+					 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+					 options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects; //avoid self referencing loops
+				 });
 
 		}
 

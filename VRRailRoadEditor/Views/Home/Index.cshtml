@@ -133,7 +133,6 @@
 
 			var iso = new Isomer(document.getElementById("canvas"));
 
-			iso.
 
 			var red = new Color(160, 60, 50);
 			var blue = new Color(50, 60, 160);
@@ -191,15 +190,15 @@
 	<script type="text/javascript">
 		jQuery();
 		console.log("test");
-		var url = '@Url.Action("Get","Layout")';
+		var url = '@Url.Action("Get","Layout", new { id = 5 })';
 
 		 $.ajax({
 				type: 'GET',
 				url: url,
 				dataType: 'json',
-				data: { id: 5 },
 				success: function (data) {
 					console.log("success");
+					console.log(data);
 					var items = '';
 					$.each(data, function (i, item) {
 
@@ -208,14 +207,28 @@
 
 						$.each(item.tiles, function (j, tile) {
 							console.log(tile);
+							console.log(tile + tile.X + tile.Y);
+
+							var iso = new Isomer(document.getElementById("canvas"));
+
+
+							var red = new Color(160, 60, 50);
+							var blue = new Color(50, 60, 160);
+
+							iso.add(Shape.Prism(Point.ORIGIN, 9, 3, 1));
+							iso.add(Shape.Pyramid(Point(0, 2, 1)), red);
+							iso.add(Shape.Prism(Point(2, 0, 1)), blue);
+
 						});
+
+						
 
 						//$('body').append(rows);
 					});
 
 				},
 				error: function (ex) {
-					console.log("success2");
+					console.log("failure" + ex);
 					var r = jQuery.parseJSON(response.responseText);
 					alert("Message: " + r.Message);
 					alert("StackTrace: " + r.StackTrace);
