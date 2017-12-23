@@ -184,13 +184,7 @@
 		var canvasElement = document.getElementById('maincanvas');
 		sheetengine.scene.init(canvasElement, { w: 900, h: 500 });
 
-		// define some basesheets
-		for (var x = -1; x <= 1; x++) {
-			for (var y = -1; y <= 1; y++) {
-				var basesheet = new sheetengine.BaseSheet({ x: x * 200, y: y * 200, z: 0 }, { alphaD: 90, betaD: 0, gammaD: 0 }, { w: 200, h: 200 });
-				basesheet.color = '#5D7E36';
-			}
-		}
+	
 
 		// define a selectable object
 		var sheet1 = new sheetengine.Sheet({ x: 0, y: 10, z: 10 }, { alphaD: 0, betaD: 0, gammaD: 0 }, { w: 20, h: 20 });
@@ -422,11 +416,38 @@
 				dataType: 'json',
 				success: function (item) {
 
+					console.log("success");
+					console.log(item);
+
+					var tileWidthInPixels = 100;
+
+					$.each(item.tiles, function (j, tile) {
+
+						var x = tile.x;
+						var y = tile.y;
+						var z = tile.z;
+
+						if (z == 0) {
+
+							console.log("creating new cube with iso at" + tile.x + " " + tile.y + " " + (tile.z + 1));
+
+							var basesheet = new sheetengine.BaseSheet({ x: x * tileWidthInPixels, y: y * tileWidthInPixels, z: 0 }, { alphaD: 90, betaD: 0, gammaD: 0 }, { w: tileWidthInPixels, h: tileWidthInPixels });
+							basesheet.color = '#5D7E36';
+
+						}
+					});
+
+					
+
+					sheetengine.calc.calculateAllSheets();
+					sheetengine.drawing.drawScene(true);
+
+					console.log("basesheets defined");
+
 					/*
 					var iso = new Isomer(document.getElementById("canvas"));
 					iso.add(Shape.Prism(Point.ORIGIN, item.width, item.length, 0.2));
-					console.log("success");
-					console.log(item);
+					
 					
 
 						console.log(item.id);
@@ -444,16 +465,7 @@
 						iso.add(cube.translate(0, -2, 0), blue); like so basically i have to pain the ones closest to me last
 						var cube = Shape.Prism(Point.ORIGIN);
 						iso.add(cube);
-						$.each(item.tiles, function (j, tile) {
-
-							if (tile.z == 0) {
-								
-								console.log("creating new cube with iso at" + tile.x + " " + tile.y + " " + (tile.z + 1));
-								console.log(iso);
-
-								iso.add(cube.translate(item.length + (tile.x * -1), 0, 0), Green);
-							}
-						});
+						
 
 						*/
 
