@@ -125,21 +125,6 @@
 	</div>
 	<div id="input">
 		<div id="editor">
-			var Point  = Isomer.Point;
-			var Path   = Isomer.Path;
-			var Shape  = Isomer.Shape;
-			var Vector = Isomer.Vector;
-			var Color  = Isomer.Color;
-
-			var iso = new Isomer(document.getElementById("canvas"));
-
-
-			var red = new Color(160, 60, 50);
-			var blue = new Color(50, 60, 160);
-
-			iso.add(Shape.Prism(Point.ORIGIN, 9, 3, 1));
-			iso.add(Shape.Pyramid(Point(0, 2, 1)), red);
-			iso.add(Shape.Prism(Point(2, 0, 1)), blue);
 		</div>
 	</div>
 </div>
@@ -188,6 +173,21 @@
 	</script>
 
 	<script type="text/javascript">
+
+		
+
+		var iso = new Isomer(document.getElementById("canvas"));
+		var Point = Isomer.Point;
+		var Path = Isomer.Path;
+		var Shape = Isomer.Shape;
+		var Vector = Isomer.Vector;
+		var Color = Isomer.Color;
+		var Red = new Color(160, 60, 50);
+		var Blue = new Color(50, 60, 160);
+		var Green = new Color(0, 128, 0)
+
+		
+
 		jQuery();
 		console.log("test");
 		var url = '@Url.Action("Get","Layout", new { id = 5 })';
@@ -196,35 +196,42 @@
 				type: 'GET',
 				url: url,
 				dataType: 'json',
-				success: function (data) {
+				success: function (item) {
+					var iso = new Isomer(document.getElementById("canvas"));
+					iso.add(Shape.Prism(Point.ORIGIN, item.width, item.length, 0.2));
 					console.log("success");
-					console.log(data);
-					var items = '';
-					$.each(data, function (i, item) {
+					console.log(item);
+					
 
-						console.log(item.name);
+						console.log(item.id);
 						console.log(item);
 
+						console.log("and the tiles");
+
+						console.log(item.tiles);
+
+						//ok how the shading works is EXTREMELY STUPID
+						//to avoid transparency you have to do decreasing #todo
+						/*
+						iso.add(cube.translate(0, 0, 0), blue);
+						iso.add(cube.translate(0, -1, 0), blue);
+						iso.add(cube.translate(0, -2, 0), blue); like so basically i have to pain the ones closest to me last*/
+						var cube = Shape.Prism(Point.ORIGIN);
+						iso.add(cube);
 						$.each(item.tiles, function (j, tile) {
-							console.log(tile);
-							console.log(tile + tile.X + tile.Y);
 
-							var iso = new Isomer(document.getElementById("canvas"));
+							if (tile.z == 0) {
+								
+								console.log("creating new cube with iso at" + tile.x + " " + tile.y + " " + (tile.z + 1));
+								console.log(iso);
 
-
-							var red = new Color(160, 60, 50);
-							var blue = new Color(50, 60, 160);
-
-							iso.add(Shape.Prism(Point.ORIGIN, 9, 3, 1));
-							iso.add(Shape.Pyramid(Point(0, 2, 1)), red);
-							iso.add(Shape.Prism(Point(2, 0, 1)), blue);
-
+								iso.add(cube.translate(item.length + (tile.x * -1), 0, 0), Green);
+							}
 						});
 
 						
 
-						//$('body').append(rows);
-					});
+					
 
 				},
 				error: function (ex) {
@@ -269,6 +276,8 @@
 				this.tiles = tiles;
 			}
 		}
+
+		
 
 		var tiles = new Array(2);
 		tiles[0] = new Tile("grass");

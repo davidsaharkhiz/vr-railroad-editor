@@ -36,6 +36,8 @@ namespace VRRailRoadEditor.Models
 		/// </summary>
 		public IMaterial SecondaryMaterial { get; set; }
 
+		public virtual Layout Layout { get; set; }
+
 		public ICollection<IScenery> Scenery { get; set; }
 
 	}

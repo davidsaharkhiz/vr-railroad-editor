@@ -31,14 +31,13 @@ namespace VRRailRoadEditor.Controllers
 
         // GET api/values/5
         [HttpGet("{id:int}")]
-        public string Get(int id)
+        public JsonResult Get(int id)
         {
 
 			var testLayout = _context.Layouts.FirstOrDefault(l => l.ID == id);
 
 			if(testLayout != null) {
 
-				_context.Tiles.RemoveRange(testLayout.Tiles);
 
 				//delete old one(todo: these are null?!?!
 				//_context.Tiles.RemoveRange(testLayout.Tiles);
@@ -47,7 +46,7 @@ namespace VRRailRoadEditor.Controllers
 				_context.SaveChanges();
 			}
 
-			testLayout = new Layout { Name = "test layout david", Width = 15, Height=1, Length = 30 };
+			testLayout = new Layout { Name = "test layout david", Width = 6, Height=1, Length = 6 };
 
 			_context.Attach(testLayout);
 
@@ -58,11 +57,6 @@ namespace VRRailRoadEditor.Controllers
 				{
 					for (int x = 0; x < testLayout.Length; x++)
 					{
-
-						if (x > 1 || y > 1 || z > 1)
-						{
-							continue;
-						}
 
 						var tile = new Tile { X = x, Y = y, Z = z,  PrimaryMaterial = new IMaterial { Name = "grass" } };
 						testLayout.Tiles.Add(tile);
@@ -79,19 +73,15 @@ namespace VRRailRoadEditor.Controllers
 			id = testLayout.ID;
 
 			var test = _context.Layouts.Include(l => l.Tiles).FirstOrDefault(l => l.ID == 1);
+			test.Tiles = (List<Tile>)test.Tiles.OrderBy(t => t.X).ThenBy(t => t.Y).ThenBy(t => t.Z).ToList();
 
-			if(test == null) {
-				//todo: log here and response object with error info
-				test = new Layout();
-			}
+			//one to many relationship is causing self-referencing loop
+			//var converted = JsonConvert.SerializeObject(test);
 
-			var converted = JsonConvert.SerializeObject(test);
+			return new JsonResult(test); //, new JsonSerializerSettings {  }
 
-			//converted.ContentType = "application/json";
-			//var bleee = converted.ToString();
 
-			return converted;
-        }
+		}
 
         // POST api/values
         [HttpPost]
