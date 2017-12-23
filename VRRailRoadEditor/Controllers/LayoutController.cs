@@ -75,10 +75,7 @@ namespace VRRailRoadEditor.Controllers
 			var test = _context.Layouts.Include(l => l.Tiles).FirstOrDefault(l => l.ID == 1);
 			test.Tiles = (List<Tile>)test.Tiles.OrderBy(t => t.X).ThenBy(t => t.Y).ThenBy(t => t.Z).ToList();
 
-			//one to many relationship is causing self-referencing loop
-			//var converted = JsonConvert.SerializeObject(test);
-
-			return new JsonResult(test); //, new JsonSerializerSettings {  }
+			return new JsonResult(test); 
 
 
 		}
