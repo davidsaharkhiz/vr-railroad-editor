@@ -122,7 +122,7 @@
 <div id="content">
 	<div id="output">
 		<!--<canvas id="canvas"></canvas>-->
-		<canvas id="maincanvas" width="900" height="500"></canvas>
+		<canvas id="maincanvas" width="1100" height="800" style="border: 1px solid red;"></canvas>
 	</div>
 	<div id="input">
 		<div id="editor">
@@ -182,9 +182,31 @@
 		jQuery();
 
 		var canvasElement = document.getElementById('maincanvas');
-		sheetengine.scene.init(canvasElement, { w: 900, h: 500 });
+		sheetengine.scene.init(canvasElement, { w: 1100, h: 800 });
 
-	
+		
+		// load images
+		var imagesheet = new sheetengine.Sheet(
+			{ x: 0, y: 0, z: 140 }, { alphaD: 0, betaD: 0, gammaD: 0 }, { w: 140, h: 140 });
+		var img = new Image(); img.onload = function () {
+			imagesheet.context.drawImage(img, 0, 0); // draw the scene
+			sheetengine.calc.calculateChangedSheets();
+			sheetengine.drawing.drawScene(true);
+		}; img.src = 'http://phsrescue.com/wp-content/uploads/2017/12/islands-european-antique-pine-furniture-custom-barn-doors-with-regard-to-60-kitchen-island-inspirations-11-50x50.jpg'; 
+
+		var imageObject = new sheetengine.SheetObject({ x: -50, y: -50, z: 0 }, { alphaD: 0, betaD: 0, gammaD: 0 }, [imagesheet], { w: 80, h: 80, relu: 40, relv: 50 });
+
+		imageObject.rotate({ x: 0, y: 0, z: 1 }, Math.PI / 2 * 2);
+
+		/*
+		var context = canvasElement.getContext('2d');
+		var imageObj = new Image();
+
+		imageObj.onload = function () {
+			context.drawImage(imageObj, 69, 50);
+		};
+		imageObj.src = 'https://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';*/
+
 
 		// define a selectable object
 		var sheet1 = new sheetengine.Sheet({ x: 0, y: 10, z: 10 }, { alphaD: 0, betaD: 0, gammaD: 0 }, { w: 20, h: 20 });
@@ -257,6 +279,8 @@
 
 		// define a character
 		var character = defineCharacter({ x: 110, y: 0, z: 0 });
+
+		
 
 		// draw initial scene
 		sheetengine.calc.calculateAllSheets();
@@ -392,21 +416,15 @@
 			}
 		};
 		setInterval(mainloop, 30);
-
-
-		/*var iso = new Isomer(document.getElementById("canvas"));
-		var Point = Isomer.Point;
-		var Path = Isomer.Path;
-		var Shape = Isomer.Shape;
-		var Vector = Isomer.Vector;
-		var Color = Isomer.Color;
-		var Red = new Color(160, 60, 50);
-		var Blue = new Color(50, 60, 160);
-		var Green = new Color(0, 128, 0)*/
-
 		
 
-		
+		class Coordinate {
+			constructor(x, y) {
+				this.x = x;
+				this.y = y;
+			}
+		}
+
 		console.log("test");
 		var url = '@Url.Action("Get","Layout", new { id = 5 })';
 
@@ -419,7 +437,9 @@
 					console.log("success");
 					console.log(item);
 
-					var tileWidthInPixels = 100;
+					var tileWidthInPixels = 20;
+
+					var origin = new Coordinate(-320, -520);
 
 					$.each(item.tiles, function (j, tile) {
 
@@ -427,20 +447,33 @@
 						var y = tile.y;
 						var z = tile.z;
 
+						var xValue = origin.x + (x * tileWidthInPixels);
+						var yValue = origin.y + (y * tileWidthInPixels);
+
 						if (z == 0) {
 
-							console.log("creating new cube with iso at" + tile.x + " " + tile.y + " " + (tile.z + 1));
 
-							var basesheet = new sheetengine.BaseSheet({ x: x * tileWidthInPixels, y: y * tileWidthInPixels, z: 0 }, { alphaD: 90, betaD: 0, gammaD: 0 }, { w: tileWidthInPixels, h: tileWidthInPixels });
-							basesheet.color = '#5D7E36';
+							
+							var basesheet = new sheetengine.BaseSheet({ x: xValue, y: yValue, z: 0 }, { alphaD: 90, betaD: 0, gammaD: 0 }, { w: tileWidthInPixels, h: tileWidthInPixels });
+
+							if (x == 0 && y == 0) {
+								basesheet.color = '#000000';
+							}
+							else {
+
+								basesheet.color = '#5D7E36';
+							}
 
 						}
+
+						sheetengine.calc.calculateAllSheets();
+						sheetengine.drawing.drawScene(true);
+
 					});
 
 					
 
-					sheetengine.calc.calculateAllSheets();
-					sheetengine.drawing.drawScene(true);
+					
 
 					console.log("basesheets defined");
 
